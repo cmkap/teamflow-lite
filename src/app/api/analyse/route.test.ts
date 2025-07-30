@@ -1,25 +1,54 @@
 import { describe, it, expect } from "vitest";
 import { POST } from "./route";
 
-describe("POST /api/analyse", () => {
-  it("analyses messages and returns insights", async () => {
-    const req = new Request("http://localhost/api/analyse", {
-      method: "POST",
-      body: JSON.stringify({
-        messages: [
-          { user: "Alice", text: "Great job!" },
-          { user: "Bob", text: "I am not sure about this" }
-        ]
-      }),
-      headers: { "Content-Type": "application/json" }
-    });
+interface Message {
+  user: string;
+  text: string;
+}
 
+interface AnalyseRequest {
+  messages: Message[];
+}
+
+interface Analysis {
+  counts: Record<string, number>;
+  avgSentiment: number;
+  nudges: string[];
+}
+
+function createRequest(body: AnalyseRequest | object) {
+  return new Request("http://localhost/api/analyse", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
+describe("/api/analyse POST", () => {
+  it("returns analysis for valid messages", async () => {
+    const messages: Message[] = [
+      { user: "Alice", text: "Great job everyone!" },
+      { user: "Bob", text: "I'm worried about this." },
+      { user: "Alice", text: "Let's keep pushing." },
+    ];
+
+    const req = createRequest({ messages });
     const res = await POST(req);
-    const data = await res.json();
+    const json: Analysis = await res.json();
 
-    expect(data.counts.Alice).toBe(1);
-    expect(data.counts.Bob).toBe(1);
-    expect(typeof data.avgSentiment).toBe("number");
-    expect(Array.isArray(data.nudges)).toBe(true);
+    expect(res.status).toBe(200);
+    expect(json.counts).toEqual({ Alice: 2, Bob: 1 });
+    expect(typeof json.avgSentiment).toBe("number");
+    expect(Array.isArray(json.nudges)).toBe(true);
+  });
+
+  it("returns 400 for invalid request shape", async () => {
+    const invalidBody = { msg: "wrong field" };
+    const req = createRequest(invalidBody);
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.error).toBeDefined();
   });
 });
