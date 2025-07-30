@@ -1,10 +1,22 @@
+import { AnalyseRequestSchema } from '@/lib/validation';
 import { NextResponse } from 'next/server';
 import Sentiment from 'sentiment';
 
 const sentiment = new Sentiment();
 
 export async function POST(req: Request) {
-  const { messages } = await req.json() as { user: string; text: string }[];
+ const json = await req.json();
+
+  // Validate request body with Zod
+  const result = AnalyseRequestSchema.safeParse(json);
+  if (!result.success) {
+    return NextResponse.json(
+      { error: result.error.message },
+      { status: 400 }
+    );
+  }
+
+  const { messages } = result.data;
 
   const counts: Record<string, number> = {};
   let totalSentiment = 0;
