@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
+type Analysis = {
+  sentimentScore: number;
+  messageCount: number;
+  nudges: string[];
+};
+
+
 const demoMessages = [
   { user: "Alice", text: "Great job everyone!" },
   { user: "Bob", text: "I'm not sure this will work" },
@@ -11,7 +18,7 @@ const demoMessages = [
 ];
 
 export default function Page() {
-  const [analysis, setAnalysis] = useState<any>(null);
+  const [analysis, setAnalysis] = useState<Analysis | null>(null);
 
   async function analyse() {
     const res = await fetch("/api/analyse", {
