@@ -52,7 +52,7 @@ npm run lint
 ## Usage
 
 - Select a scenario from the dropdown or use the default demo messages.
-- Click **Analyze** to process the messages.
+- Click **analyse** to process the messages.
 - View average sentiment, message counts per user, and nudges suggesting team communication improvements.
 - The bar chart dynamically visualizes message activity.
 
