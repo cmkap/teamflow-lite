@@ -13,9 +13,18 @@ import {
 } from "recharts";
 import { demoMessages } from "@/data/demoMessages";
 
-interface Analysis {
+type Analysis = {
   counts: Record<string, number>;
   avgSentiment: number;
+  topSpeaker: string | null;
+  topSpeakerCount: number | null;
+  topSpeakerSentiment: number | null;
+  topSpeakerMessages: string[];
+  topSpeakerSentimentScore: number | null;
+  topSpeakerMessageCount: number | null;
+  topSpeakerNudges: string[];     
+  sentimentScore: number;
+  messageCount: number;
   nudges: string[];
   notableMessages?: string[];
 }
