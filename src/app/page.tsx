@@ -17,11 +17,13 @@ const demoMessages = [
   { user: "Charlie", text: "Sounds good" },
 ];
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+
 export default function Page() {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
 
   async function analyse() {
-    const res = await fetch("/api/analyse", {
+    const res = await fetch(`${apiBaseUrl}/api/analyse`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: demoMessages }),
