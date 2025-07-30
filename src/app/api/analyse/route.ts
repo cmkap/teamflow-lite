@@ -27,7 +27,8 @@ export async function POST(req: Request) {
   }
 
   const topSpeaker = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
-  const avgSentiment = totalSentiment / messages.length;
+  const avgSentiment = messages.length > 0 ? totalSentiment / messages.length : 0;
+
 
   const nudges = [];
   if (topSpeaker && topSpeaker[1] / messages.length > 0.7) {

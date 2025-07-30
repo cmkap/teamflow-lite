@@ -4,6 +4,15 @@ import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
 type Analysis = {
+  counts: Record<string, number>;
+  avgSentiment: number;
+  topSpeaker: string | null;
+  topSpeakerCount: number | null;
+  topSpeakerSentiment: number | null;
+  topSpeakerMessages: string[];
+  topSpeakerSentimentScore: number | null;
+  topSpeakerMessageCount: number | null;
+  topSpeakerNudges: string[];     
   sentimentScore: number;
   messageCount: number;
   nudges: string[];
