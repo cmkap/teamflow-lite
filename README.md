@@ -1,4 +1,4 @@
-![CI](https://github.com/your-username/your-repo/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/cmkap/teamflow-lite/actions/workflows/ci.yml/badge.svg)
 
 # TeamFlow Lite
 
