@@ -36,13 +36,12 @@ export default function Page() {
   const [selectedScenario, setSelectedScenario] = useState<string>("");
   const [highlightedUser, setHighlightedUser] = useState<string | null>(null);
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
 
   async function analyse() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${baseUrl}/api/analyse`, {
+      const res = await fetch("/api/analyse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
